@@ -1,0 +1,119 @@
+.GameBodyPage-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  background-size: cover;
+}
+
+.GameBodyPage-header {
+  height: 25%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.GameBodyPage-header-text {
+  width: 300px;
+  height: 100px;
+  background-color: rgb(250, 235, 215);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+}
+
+.GameBodyPage-player-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.GameBodyPage-action-count-box {
+  background-color: rgb(250, 235, 215);
+  width: 120px;
+  height: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.GameBodyPage-ai-name-box {
+  background-color: rgb(100, 149, 237);
+  border: 3px solid;
+  border-color: rgb(60, 100, 184);
+  height: 40px;
+  width: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.GameBodyPage-human-name-box {
+  background-color: rgb(222, 184, 135);
+  border: 3px solid;
+  border-color: rgb(182, 154, 115);
+  height: 50px;
+  width: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  margin-bottom: 20px;
+}
+
+.GameBodyPage-button-container {
+  height: 15%;
+}
+
+.GameBodyPage-pause-button {
+  background-color: cornflowerblue;
+  border: 3px solid;
+  border-color: darkblue;
+  border-radius: 30px;
+  height: 60px;
+  width: 180px;
+  font-size: 1.2em;
+}
+
+.GameBodyPage-top-row {
+  height: 30%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  width: 100%;
+}
+
+.GameBodyPage-bottom-row {
+  height: 30%;
+}
+
+.GameBodyPage-ball {
+  background-color: rgb(0, 128, 0);
+  width: 30px;
+  height: 30px;
+  border-radius: 15px;
+  position: absolute;
+  transition: transform 0.15s linear;
+}
+
+/*
+ * Note: Subtracting 50% of the ball radius to position the centre of the ball at the name box border.
+ * 30px is the nominated offset from the name box border.
+ * 140px is the distance from the header component to the border of the AI name box
+ * (sum of heights and margins of the name and count boxes)
+ */
+
+.GameBodyPage-ball-human {
+  transform: translate(calc(50vw - 50%), calc(55dvh - 30px - 50%));
+}
+
+.GameBodyPage-ball-ai-1 {
+  transform: translate(calc(25vw - 50%), calc(25dvh + 140px + 30px - 50%));
+}
+
+.GameBodyPage-ball-ai-2 {
+  transform: translate(calc(75vw - 50%), calc(25dvh + 140px + 30px - 50%));
+}

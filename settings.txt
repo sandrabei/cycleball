@@ -1,0 +1,35 @@
+1. 编辑可编辑的文本
+修改 src/strings.json，并执行 yarn build 重新编译。
+
+
+2. 编辑每页的背景音乐
+放置音乐文件至 src/assets/music 文件夹下，打开 src/components/Game/Pages/ 文件夹下对应页面的.js文件（如需要编辑第3页面的背景音乐，则打开 src/components/Game/Pages/Page3/Page3.js），并修改以下代码：
+
+import backgroundMusic from "../../../../assets/music/background.wav";
+
+把 background.wav 改成刚放进去的文件名字，并执行 yarn build 重新编译。
+
+
+3. 编辑每页的背景图片
+放置图片文件至 src/assets/images 文件夹下，打开 src/components/Game/Pages/ 文件夹下对应页面的.css文件（如需要编辑第3页面的背景图片，则打开 src/components/Game/Pages/Page3/Page3.css），并修改以下代码：
+
+background-image: url(../../../../assets/images/background.jpg);
+
+每个 .css 文件只有一条该代码，注意不要移动这行代码的位置。
+
+把 background.jpg 改成刚放进去的文件名字，并执行 yarn build 重新编译。
+
+
+4. 编辑页面5的游戏时长
+打开 src/components/Game/Pages/Page5/Page5.js，修改 TIME_LIMIT_SECONDS，并执行 yarn build 重新编译。注意单位是秒。
+
+
+5. 编辑页面5传给人类玩家的概率
+打开 src/components/Game/Pages/Page5/Page5.js，修改 getNextTargetProbability 的实现，并执行 yarn build 重新编译。注意返回的概率为电脑玩家传给人类玩家的概率，该函数第一个参数是游戏剩下还有多少秒。
+
+
+6. 编辑调查问题和选项
+修改 src/survey.json，注意不要破坏格式，并执行 yarn build 重新编译。
+
+7. 编辑数据导出方式
+打开 src/App.js，修改 submitGameData 的实现，并执行 yarn build 重新编译。

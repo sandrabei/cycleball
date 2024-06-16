@@ -1,0 +1,16 @@
+.RedirectPage-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-size: cover;
+}
+
+.RedirectPage-header {
+  max-width: 400px;
+  margin: 10% auto;
+}
+
+.RedirectPage-countdown {
+  margin: 0 5% 10%;
+}

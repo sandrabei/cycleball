@@ -1,0 +1,32 @@
+.Page1-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-image: url(../../../../assets/images/background.jpg);
+  background-size: cover;
+}
+
+.Page1-header {
+  max-width: 400px;
+  margin: 10% auto;
+}
+
+.Page1-button-container {
+  width: 90%;
+  display: flex;
+  justify-content: space-between;
+  margin: 0 5% 10%;
+}
+
+.Page1-button {
+  border: 0;
+  background-color: transparent;
+  font-weight: bold;
+  font-size: 1.2em;
+  padding: 0;
+}
+
+.Page1-button:focus {
+  text-decoration: underline;
+}

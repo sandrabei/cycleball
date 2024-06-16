@@ -1,0 +1,79 @@
+.Page6-container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-image: url(../../../../assets/images/background.jpg);
+  background-size: cover;
+}
+
+.Page6-header {
+  margin: 10% auto 5%;
+  background-color: rgb(250, 235, 215);
+  width: 600px;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.Page6-survey-container {
+  flex-grow: 1;
+  overflow: auto;
+}
+
+.Page6-survey-question {
+  margin-bottom: 50px;
+}
+
+.Page6-survey-question-question {
+  margin-bottom: 10px;
+}
+
+.Page6-survey-question-answers {
+  width: 500px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+}
+
+.Page6-survey-selected-response {
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+.Page6-pagination-container {
+  width: 90%;
+  height: 60px;
+  margin: 0 5% 5%;
+}
+
+.Page6-pagination-container ul {
+  list-style: none;
+}
+
+.Page6-pagination-container li {
+  display: inline-block;
+}
+
+.Page6-pagination-container li:not(:last-of-type) {
+  margin-right: 10px;
+}
+
+.Page6-button-container {
+  width: 90%;
+  height: 60px;
+  display: flex;
+  justify-content: flex-end;
+  margin: 0 5% 10%;
+}
+
+.Page6-button {
+  background-color: rgb(180, 201, 241);
+  border: 0;
+  border-radius: 30px;
+  height: 60px;
+  width: 150px;
+  margin: 0 5% 10%;
+  font-size: 1.2em;
+}
