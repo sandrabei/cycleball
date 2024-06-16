@@ -38,7 +38,7 @@ const Page1 = ({ setActivePageIndex }) => {
             setActivePageIndex(1);
           }}
         >
-          进入游戏
+          进入游戏!
         </button>
       </div>
       <audio autoPlay loop id={audioElementId}>
