@@ -4,7 +4,7 @@ import strings from "../../../../../strings.json";
 import "./GameBodyPage.css";
 import useAutoPlayAudio from "../../../../../hooks/useAutoPlayAudio";
 
-const AI_PLAYER_ACTION_DELAY_SECONDS = 0.8 + (Math.random()-0.5);
+const AI_PLAYER_ACTION_DELAY_SECONDS = 1 + (Math.random()-0.5);
 
 const MAX_PAUSES = 3;
 
@@ -48,7 +48,7 @@ const GameBodyPage = ({
 
   const autotosstimeoutRef = useRef(null)
 
-
+  const [autotossref, setIsautotossref] = useState(true)
   const [remainingTime, setRemainingTime] = useState(timeLimitSeconds);
 
   const [actionCounts, setActionCounts] = useState([0, 0, 0]);
@@ -63,47 +63,45 @@ const GameBodyPage = ({
 
   const [isPauseCoolDown, setIsPauseCoolDown] = useState(false);
 
-  const [isautotosstimeout, setisautotosstimeout] = useState(false)
+  
 
   const executeActionByAiPlayer = (activePlayerIndex) => {
+
     setActionCounts((prevActionCounts) => {
       const newActionCounts = [...prevActionCounts];
       newActionCounts[activePlayerIndex] += 1;
       return newActionCounts;
     });
 
-    if (activePlayerIndex==PLAYER_INDEX.HUMAN) {
-      setisautotosstimeout(false);
-      const uniformrandom = Math.random();
-      if (uniformrandom <0.5) {
-        passToAiPlayer(PLAYER_INDEX.AI_1);
-      }
-      else {
-        passToAiPlayer(PLAYER_INDEX.AI_2);
-      }
-    }
-    else {
     const targetBySign =
       Math.random() - getNextTargetProbability(remainingTime);
 
     if (targetBySign < 0) {
       setActivePlayerIndex(PLAYER_INDEX.HUMAN);
-      setisautotosstimeout(true);
+      setIsautotossref(true);
     } else {
       passToAiPlayer(PLAYER_INDEX.AI_1 + PLAYER_INDEX.AI_2 - activePlayerIndex);
     }
-  }
   };
 
-  autotosstimeoutRef.current = setTimeout(() => {
-    setisautotosstimeout(false);
-    autotosstimeoutRef.current = null;
-    if (activePlayerIndex == PLAYER_INDEX.HUMAN) {
-      executeActionByAiPlayer(activePlayerIndex);
-    }
+  if (autotossref && (activePlayerIndex === PLAYER_INDEX.HUMAN)) {
+      setIsautotossref(false);
+      autotosstimeoutRef.current = setTimeout(() => {
+      const uniformrandom = Math.random();
+      if (uniformrandom <0.5) {
+        clearTimeout(autotosstimeoutRef.current);
+        autotosstimeoutRef.current = null;
+        passToAiPlayerByHuman(PLAYER_INDEX.AI_1);
+      }
+      else {
+        clearTimeout(autotosstimeoutRef.current);
+        autotosstimeoutRef.current = null;
+        passToAiPlayerByHuman(PLAYER_INDEX.AI_2);
+      }
+    return ;
   }, AUTOTOSS_INTERVAL_SECONDS * 1000); 
 
-
+  }
   const passToAiPlayer = (aiPlayerIndex) => {
     if (remainingTime <= 0) {
       return;
@@ -125,15 +123,13 @@ const GameBodyPage = ({
     ) {
       return;
     }
-    
+    setIsautotossref(false);
     setActionCounts((prevActionCounts) => {
       const newActionCounts = [...prevActionCounts];
       newActionCounts[PLAYER_INDEX.HUMAN] += 1;
       return newActionCounts;
     });
-
     passToAiPlayer(aiPlayerIndex);
-    setisautotosstimeout(false);
   };
 
   const pause = () => {
@@ -143,8 +139,6 @@ const GameBodyPage = ({
 
     setIsPaused(true);
     setIsPauseCoolDown(true);
-    setisautotosstimeout(false)
-
     setPauseCount((prevPauseCount) => (prevPauseCount += 1));
     gameData.pauses.push({
       stage: gameStage,
@@ -162,9 +156,7 @@ const GameBodyPage = ({
 
       if (activePlayerIndex !== PLAYER_INDEX.HUMAN) {
         executeActionByAiPlayer(activePlayerIndex);
-      } else {
-        setisautotosstimeout(true)
-      }
+      } 
       
     }, PAUSE_INTERVAL_SECONDS * 1000);
 

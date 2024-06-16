@@ -41,6 +41,7 @@ const submitGameData = () => {
     })),
   };
 
+  console.log(JSON.stringify(normalisedGameData));
   console.log(normalisedGameData);
 };
 
