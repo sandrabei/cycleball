@@ -1,7 +1,7 @@
 import React from "react";
 import "./Page4.css";
 import RedirectPage from "../Base/RedirectPage/RedirectPage";
-import backgroundMusic from "../../../../assets/music/background.wav";
+import backgroundMusic from "../../../../assets/music/blank.wav";
 
 const audioElementId = "Page4-audio";
 

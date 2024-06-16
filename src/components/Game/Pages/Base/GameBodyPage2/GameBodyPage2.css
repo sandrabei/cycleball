@@ -1,4 +1,4 @@
-.GameBodyPage-container {
+.GameBodyPage2-container {
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -7,14 +7,16 @@
   background-size: cover;
 }
 
-.GameBodyPage-header {
+.GameBodyPage2-header {
   height: 25%;
   display: flex;
   justify-content: center;
   align-items: center;
+
+  opacity:0;
 }
 
-.GameBodyPage-header-text {
+.GameBodyPage2-header-text {
   width: 300px;
   height: 60px;
   background-color: rgb(250, 235, 215);
@@ -26,14 +28,13 @@
   font-weight: bold;
 }
 
-.GameBodyPage-player-box {
+.GameBodyPage2-player-box {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.GameBodyPage-action-count-box {
-  background-color: rgb(250, 235, 215);
+.GameBodyPage2-action-count-box {
   width: 100px;
   height: 40px;
   display: flex;
@@ -41,9 +42,10 @@
   align-items: center;
 
   font-weight: bold;
+  opacity:0;
 }
 
-.GameBodyPage-ai-name-box {
+.GameBodyPage2-ai-name-box {
   background-color: rgb(189,211,251);
   border: 3px solid;
   border-color: rgb(60, 100, 184);
@@ -57,7 +59,7 @@
   margin-bottom: 10px;
 }
 
-.GameBodyPage-human-name-box {
+.GameBodyPage2-human-name-box {
   background-color: rgb(222, 184, 135);
   border: 3px solid;
   border-color: rgb(182, 154, 115);
@@ -71,11 +73,11 @@
   margin-bottom: 30px;
 }
 
-.GameBodyPage-button-container {
+.GameBodyPage2-button-container {
   height: 30%;
 }
 
-.GameBodyPage-pause-button {
+.GameBodyPage2-pause-button {
   background-color: rgb(189, 211, 251);
   border: 3px solid;
   border-color: rgb(60, 100, 184);
@@ -88,7 +90,7 @@
   margin-bottom: 20px;
 }
 
-.GameBodyPage-top-row {
+.GameBodyPage2-top-row {
   height: 60%;
   display: flex;
   flex-direction: row;
@@ -96,11 +98,11 @@
   width: 100%;
 }
 
-.GameBodyPage-bottom-row {
+.GameBodyPage2-bottom-row {
   height: 35%;
 }
 
-.GameBodyPage-ball {
+.GameBodyPage2-ball {
   background-color: rgb(0, 128, 0);
   width: 30px;
   height: 30px;
@@ -116,14 +118,20 @@
  * (sum of heights and margins of the name and count boxes)
  */
 
-.GameBodyPage-ball-human {
+.GameBodyPage2-ball-human {
   transform: translate(calc(50vw - 50%), calc(55dvh - 10px - 50%));
 }
 
-.GameBodyPage-ball-ai-1 {
+.GameBodyPage2-ball-ai-1 {
   transform: translate(calc(25vw - 50%), calc(25dvh + 80px + 30px - 50%));
 }
 
-.GameBodyPage-ball-ai-2 {
+.GameBodyPage2-ball-ai-2 {
   transform: translate(calc(75vw - 50%), calc(25dvh + 80px + 30px - 50%));
+}
+
+.App-modal {
+  width: 60%;
+  height: 40%;
+  overflow: auto;
 }

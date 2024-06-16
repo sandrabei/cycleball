@@ -1,17 +1,17 @@
 import React from "react";
 import "./Page5.css";
 import GameBodyPage from "../Base/GameBodyPage/GameBodyPage";
-import backgroundMusic from "../../../../assets/music/background.wav";
+import backgroundMusic from "../../../../assets/music/blank.wav";
 
 const audioElementId = "Page5-audio";
 
-const TIME_LIMIT_SECONDS = 600000;
+const TIME_LIMIT_SECONDS = 90;
 
 // 返回的概率为电脑玩家传给人类玩家的概率
 const getNextTargetProbability = (remainingTime) => {
   const currentTime = TIME_LIMIT_SECONDS - remainingTime;
 
-  return currentTime / TIME_LIMIT_SECONDS;
+  return 0.2;
 };
 
 const Page5 = ({ setActivePageIndex, gameData }) => {

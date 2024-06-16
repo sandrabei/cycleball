@@ -3,7 +3,7 @@ import Modal from "react-modal";
 import strings from "../../../../strings.json";
 import "./Page1.css";
 import PlayerName from "./PlayerName.js";
-import backgroundMusic from "../../../../assets/music/background.wav";
+import backgroundMusic from "../../../../assets/music/blank.wav";
 import useAutoPlayAudio from "../../../../hooks/useAutoPlayAudio";
 
 const audioElementId = "Page1-audio";

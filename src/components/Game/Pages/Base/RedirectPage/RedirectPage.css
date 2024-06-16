@@ -8,9 +8,14 @@
 
 .RedirectPage-header {
   max-width: 400px;
-  margin: 10% auto;
+  margin: 25% auto;
+
+  font-size: 1.4em;
 }
 
 .RedirectPage-countdown {
-  margin: 0 5% 10%;
+  margin: 0 5% 25%;
+
+  font-size: 1.3em;
+  font-weight: bold;
 }

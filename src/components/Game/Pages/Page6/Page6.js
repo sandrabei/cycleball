@@ -5,7 +5,7 @@ import survey from "../../../../survey.json";
 import ReactPaginate from "react-paginate";
 import "./Page6.css";
 
-import backgroundMusic from "../../../../assets/music/background.wav";
+import backgroundMusic from "../../../../assets/music/blank.wav";
 import useAutoPlayAudio from "../../../../hooks/useAutoPlayAudio";
 
 const audioElementId = "Page6-audio";

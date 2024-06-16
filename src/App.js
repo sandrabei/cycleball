@@ -14,6 +14,7 @@ const sortByStage = (a, b) => a.stage - b.stage;
 
 const submitGameData = () => {
   console.log(gameData);
+  console.log(JSON.stringify(gameData));
 
   const pauseTimes = [];
 

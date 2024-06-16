@@ -3,18 +3,19 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background-image: url(../../../../assets/images/background.jpg);
+  background-image: url(../../../../assets/images/blank.jpg);
   background-size: cover;
 }
 
 .Page6-header {
-  margin: 10% auto 5%;
+  margin: 5% auto 5%;
   background-color: rgb(250, 235, 215);
   width: 600px;
-  height: 100px;
+  height: 60px;
   display: flex;
   justify-content: center;
   align-items: center;
+  font-size: 0.9em;
 }
 
 .Page6-survey-container {
@@ -23,7 +24,8 @@
 }
 
 .Page6-survey-question {
-  margin-bottom: 50px;
+  margin-bottom: 30px;
+  font-size: 0.8em;
 }
 
 .Page6-survey-question-question {
@@ -44,8 +46,8 @@
 
 .Page6-pagination-container {
   width: 90%;
-  height: 60px;
-  margin: 0 5% 5%;
+  height: 30px;
+  margin: 0 0% 5%;
 }
 
 .Page6-pagination-container ul {
@@ -54,6 +56,7 @@
 
 .Page6-pagination-container li {
   display: inline-block;
+  font-size: 0.8em;
 }
 
 .Page6-pagination-container li:not(:last-of-type) {
@@ -62,18 +65,19 @@
 
 .Page6-button-container {
   width: 90%;
-  height: 60px;
+  height: 30px;
   display: flex;
   justify-content: flex-end;
-  margin: 0 5% 10%;
+  margin: 0 5% 5%;
+  
 }
 
 .Page6-button {
   background-color: rgb(180, 201, 241);
   border: 0;
   border-radius: 30px;
-  height: 60px;
-  width: 150px;
+  height: 50px;
+  width: 110px;
   margin: 0 5% 10%;
   font-size: 1.2em;
 }

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import Modal from "react-modal";
 import strings from "../../../../../strings.json";
-import "./GameBodyPage.css";
+import "./GameBodyPage2.css";
 import useAutoPlayAudio from "../../../../../hooks/useAutoPlayAudio";
 
 const AI_PLAYER_ACTION_DELAY_SECONDS = 0.8 + (Math.random()-0.5);
@@ -12,8 +12,6 @@ const PAUSE_INTERVAL_SECONDS = 10;
 
 const PAUSE_COOL_DOWN_SECONDS = 10 + PAUSE_INTERVAL_SECONDS;
 
-const AUTOTOSS_INTERVAL_SECONDS = 10;
-
 const REDIRECT_AFTER_GAME_DELAY_SECONDS = 3;
 
 const PLAYER_INDEX = {
@@ -23,14 +21,14 @@ const PLAYER_INDEX = {
 };
 
 const ballActivePlayerIndexClassNameMap = {
-  [PLAYER_INDEX.HUMAN]: "GameBodyPage-ball-human",
-  [PLAYER_INDEX.AI_1]: "GameBodyPage-ball-ai-1",
-  [PLAYER_INDEX.AI_2]: "GameBodyPage-ball-ai-2",
+  [PLAYER_INDEX.HUMAN]: "GameBodyPage2-ball-human",
+  [PLAYER_INDEX.AI_1]: "GameBodyPage2-ball-ai-1",
+  [PLAYER_INDEX.AI_2]: "GameBodyPage2-ball-ai-2",
 };
 
 Modal.setAppElement("#root");
 
-const GameBodyPage = ({
+const GameBodyPage2 = ({
   gameStage,
   timeLimitSeconds,
   setActivePageIndex,
@@ -46,9 +44,6 @@ const GameBodyPage = ({
   const pauseCoolDownTimeoutRef = useRef(null);
   const passToAiTimeoutRef = useRef(null);
 
-  const autotosstimeoutRef = useRef(null)
-
-
   const [remainingTime, setRemainingTime] = useState(timeLimitSeconds);
 
   const [actionCounts, setActionCounts] = useState([0, 0, 0]);
@@ -63,8 +58,6 @@ const GameBodyPage = ({
 
   const [isPauseCoolDown, setIsPauseCoolDown] = useState(false);
 
-  const [isautotosstimeout, setisautotosstimeout] = useState(false)
-
   const executeActionByAiPlayer = (activePlayerIndex) => {
     setActionCounts((prevActionCounts) => {
       const newActionCounts = [...prevActionCounts];
@@ -72,37 +65,15 @@ const GameBodyPage = ({
       return newActionCounts;
     });
 
-    if (activePlayerIndex==PLAYER_INDEX.HUMAN) {
-      setisautotosstimeout(false);
-      const uniformrandom = Math.random();
-      if (uniformrandom <0.5) {
-        passToAiPlayer(PLAYER_INDEX.AI_1);
-      }
-      else {
-        passToAiPlayer(PLAYER_INDEX.AI_2);
-      }
-    }
-    else {
     const targetBySign =
       Math.random() - getNextTargetProbability(remainingTime);
 
     if (targetBySign < 0) {
       setActivePlayerIndex(PLAYER_INDEX.HUMAN);
-      setisautotosstimeout(true);
     } else {
       passToAiPlayer(PLAYER_INDEX.AI_1 + PLAYER_INDEX.AI_2 - activePlayerIndex);
     }
-  }
   };
-
-  autotosstimeoutRef.current = setTimeout(() => {
-    setisautotosstimeout(false);
-    autotosstimeoutRef.current = null;
-    if (activePlayerIndex == PLAYER_INDEX.HUMAN) {
-      executeActionByAiPlayer(activePlayerIndex);
-    }
-  }, AUTOTOSS_INTERVAL_SECONDS * 1000); 
-
 
   const passToAiPlayer = (aiPlayerIndex) => {
     if (remainingTime <= 0) {
@@ -125,7 +96,7 @@ const GameBodyPage = ({
     ) {
       return;
     }
-    
+
     setActionCounts((prevActionCounts) => {
       const newActionCounts = [...prevActionCounts];
       newActionCounts[PLAYER_INDEX.HUMAN] += 1;
@@ -133,7 +104,6 @@ const GameBodyPage = ({
     });
 
     passToAiPlayer(aiPlayerIndex);
-    setisautotosstimeout(false);
   };
 
   const pause = () => {
@@ -143,7 +113,6 @@ const GameBodyPage = ({
 
     setIsPaused(true);
     setIsPauseCoolDown(true);
-    setisautotosstimeout(false)
 
     setPauseCount((prevPauseCount) => (prevPauseCount += 1));
     gameData.pauses.push({
@@ -162,10 +131,7 @@ const GameBodyPage = ({
 
       if (activePlayerIndex !== PLAYER_INDEX.HUMAN) {
         executeActionByAiPlayer(activePlayerIndex);
-      } else {
-        setisautotosstimeout(true)
       }
-      
     }, PAUSE_INTERVAL_SECONDS * 1000);
 
     pauseCoolDownTimeoutRef.current = setTimeout(() => {
@@ -205,10 +171,6 @@ const GameBodyPage = ({
         clearTimeout(pauseCoolDownTimeoutRef.current);
       }
 
-      if (autotosstimeoutRef.current) {
-        clearTimeout(autotosstimeoutRef.current);
-      }
-
       clearInterval(gameCountdownIntervalRef.current);
       gameCountdownIntervalRef.current = null;
     };
@@ -246,69 +208,69 @@ const GameBodyPage = ({
   return (
     <>
       <div
-        className={`GameBodyPage-ball ${ballActivePlayerIndexClassNameMap[activePlayerIndex]}`}
+        className={`GameBodyPage2-ball ${ballActivePlayerIndexClassNameMap[activePlayerIndex]}`}
       />
-      <div className="GameBodyPage-container">
-        <header className="GameBodyPage-header">
-          <p className="GameBodyPage-header-text">
+      <div className="GameBodyPage2-container">
+        <header className="GameBodyPage2-header">
+          <p className="GameBodyPage2-header-text">
             还剩
             {Math.floor(remainingTime / 60)}分{remainingTime % 60}秒
             {isPaused && "（已暂停）"}
           </p>
         </header>
 
-        <div className="GameBodyPage-top-row">
-          <div className="GameBodyPage-player-box">
+        <div className="GameBodyPage2-top-row">
+          <div className="GameBodyPage2-player-box">
 
             <div
-              className="GameBodyPage-ai-name-box"
-              onClick={() => passToAiPlayerByHuman(PLAYER_INDEX.AI_1) }             
+              className="GameBodyPage2-ai-name-box"
+              onClick={() => passToAiPlayerByHuman(PLAYER_INDEX.AI_1)}
             >
               {strings["game.players.ai.1.name"]}
             </div>
 
-            <div className="GameBodyPage-action-count-box">
+            <div className="GameBodyPage2-action-count-box">
               {actionCounts[PLAYER_INDEX.AI_1]}
             </div>
 
           </div>
-          <div className="GameBodyPage-player-box">
+          <div className="GameBodyPage2-player-box">
             
             <div
-              className="GameBodyPage-ai-name-box"
+              className="GameBodyPage2-ai-name-box"
               onClick={() => passToAiPlayerByHuman(PLAYER_INDEX.AI_2)}
             >
               {strings["game.players.ai.2.name"]}
             </div>
 
-            <div className="GameBodyPage-action-count-box">
+            <div className="GameBodyPage2-action-count-box">
               {actionCounts[PLAYER_INDEX.AI_2]}
             </div>
 
           </div>
         </div>
 
-        <div className="GameBodyPage-bottom-row">
-          <div className="GameBodyPage-player-box">
+        <div className="GameBodyPage2-bottom-row">
+          <div className="GameBodyPage2-player-box">
            
-            <div className="GameBodyPage-action-count-box">
+            <div className="GameBodyPage2-action-count-box">
               {actionCounts[PLAYER_INDEX.HUMAN]}
             </div>
 
-            <div className="GameBodyPage-human-name-box">
+            <div className="GameBodyPage2-human-name-box">
               {strings["game.players.human.name"]}
             </div>
             
           </div>
         </div>
 
-        <div className="GameBodyPage-button-container">
+        <div className="GameBodyPage2-button-container">
           <button
             onClick={pause}
             disabled={
               isPauseCoolDown || remainingTime <= 0 || pauseCount >= MAX_PAUSES
             }
-            className="GameBodyPage-pause-button"
+            className="GameBodyPage2-pause-button"
           >
             暂停游戏
           </button>
@@ -321,6 +283,7 @@ const GameBodyPage = ({
 
         <Modal className="App-modal" isOpen={isPaused == 1}>
         暂停中
+        
         </Modal>
 
         <Modal className="App-modal" isOpen={remainingTime <= 0}>
@@ -334,4 +297,4 @@ const GameBodyPage = ({
   );
 };
 
-export default GameBodyPage;
+export default GameBodyPage2;
