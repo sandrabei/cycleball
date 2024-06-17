@@ -12,7 +12,7 @@ const PAUSE_INTERVAL_SECONDS = 10;
 
 const PAUSE_COOL_DOWN_SECONDS = 10 + PAUSE_INTERVAL_SECONDS;
 
-const AUTOTOSS_INTERVAL_SECONDS = 2;
+const AUTOTOSS_INTERVAL_SECONDS = 5;
 
 const REDIRECT_AFTER_GAME_DELAY_SECONDS = 3;
 
@@ -45,13 +45,8 @@ const GameBodyPage = ({
   const pauseCountdownTimeoutRef = useRef(null);
   const pauseCoolDownTimeoutRef = useRef(null);
   const passToAiTimeoutRef = useRef(null);
+  const autotosstimeoutref = useRef(null);
 
-  const autotosstimeoutRef = useRef(null);
-
-  const [autotossref1, setIsautotossref1] = useState(true);
-  const [autotossref2, setIsautotossref2] = useState(false);
-  console.log("rrrrrrrrrr");
-  
   const [remainingTime, setRemainingTime] = useState(timeLimitSeconds);
 
   const [actionCounts, setActionCounts] = useState([0, 0, 0]);
@@ -61,6 +56,8 @@ const GameBodyPage = ({
   );
 
   const [pauseCount, setPauseCount] = useState(0);
+
+  const [autotossref, setautotossref] = useState(true);
 
   const [isPaused, setIsPaused] = useState(false);
 
@@ -76,37 +73,19 @@ const GameBodyPage = ({
     const targetBySign =
       Math.random() - getNextTargetProbability(remainingTime);
     if (targetBySign < 0) {
-      setActivePlayerIndex(PLAYER_INDEX.HUMAN);
+      passTohumanplayer();
     } else {
       passToAiPlayer(PLAYER_INDEX.AI_1 + PLAYER_INDEX.AI_2 - activePlayerIndex);
     }
   };
 
-  console.log("eeeeeeeeeee");
-  if (autotossref1 && (activePlayerIndex === PLAYER_INDEX.HUMAN)) {
-      setIsautotossref1(false);
-      setIsautotossref2(true);
-      console.log("aaaaaaaaaaaaaa");
-      autotosstimeoutRef.current = setTimeout(() => {
-      const uniformrandom = Math.round(Math.random())+1;
-        if (autotossref2) {
-          setIsautotossref2(false);
-          console.log("hhhhhhhhh")
-          passToAiPlayerByHuman(2);
-        } 
-        autotosstimeoutRef.current = null;
-      }, AUTOTOSS_INTERVAL_SECONDS * 1000); 
-      console.log("bbbbbbbbbbbbbbb");
-    }
 
-  
   const passToAiPlayer = (aiPlayerIndex) => {
     if (remainingTime <= 0) {
       return;
     }
     setActivePlayerIndex(aiPlayerIndex);
-    setIsautotossref1(true);
-    console.log("ddddddddc")
+
     passToAiTimeoutRef.current = setTimeout(() => {
       passToAiTimeoutRef.current = null;
       executeActionByAiPlayer(aiPlayerIndex);
@@ -114,9 +93,9 @@ const GameBodyPage = ({
   };
 
   const passToAiPlayerByHuman = (aiPlayerIndex) => {
-    setIsautotossref1(false);
-    setIsautotossref2(false);
-    console.log("cccccccccccc")
+    setautotossref(false);
+    console.log("bbbbbbbbb");
+    console.log(autotossref);
     if (
       isPaused ||
       activePlayerIndex !== PLAYER_INDEX.HUMAN ||
@@ -131,8 +110,21 @@ const GameBodyPage = ({
     });
     passToAiPlayer(aiPlayerIndex);
   };
-  console.log("ggggggggggg");
 
+  const passTohumanplayer = () =>{
+    setActivePlayerIndex(PLAYER_INDEX.HUMAN);
+    console.log("cccccc");
+    console.log(autotossref);
+    autotosstimeoutref.current = setTimeout(() => {
+      autotosstimeoutref.current = null;
+      if (autotossref != false) {
+        const uniformrandom = Math.round(Math.random())+1
+        passToAiPlayerByHuman(uniformrandom);
+        console.log("dddddddd");
+        console.log(autotossref);
+      }
+    }, AUTOTOSS_INTERVAL_SECONDS * 1000);
+  }
 
   const pause = () => {
     if (pauseCount >= MAX_PAUSES) {
@@ -168,8 +160,6 @@ const GameBodyPage = ({
     }, PAUSE_COOL_DOWN_SECONDS * 1000);
   };
 
-  console.log("xxxxxxxxxxxxx");
-
   useEffect(() => {
     if (gameCountdownIntervalRef.current) {
       return;
@@ -199,17 +189,12 @@ const GameBodyPage = ({
       if (pauseCoolDownTimeoutRef.current) {
         clearTimeout(pauseCoolDownTimeoutRef.current);
       }
-
-      if (autotosstimeoutRef.current) {
-        clearTimeout(autotosstimeoutRef.current);
-      }
-
       clearInterval(gameCountdownIntervalRef.current);
       gameCountdownIntervalRef.current = null;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  console.log("yyyyyyyy");
+  
   useEffect(() => {
     if (remainingTime % 60 === 59) {
       setPauseCount(0);
@@ -237,7 +222,7 @@ const GameBodyPage = ({
       setActivePageIndex(gameStage);
     }, REDIRECT_AFTER_GAME_DELAY_SECONDS * 1000);
   }
-  console.log("zzzzzzzzzzz");
+  
   return (
     <>
       <div
