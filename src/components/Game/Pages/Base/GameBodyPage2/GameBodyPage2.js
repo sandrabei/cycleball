@@ -85,6 +85,7 @@ const GameBodyPage2 = ({
     passToAiTimeoutRef.current = setTimeout(() => {
       passToAiTimeoutRef.current = null;
       executeActionByAiPlayer(aiPlayerIndex);
+      console.log("mmmmmmm");
     }, AI_PLAYER_ACTION_DELAY_SECONDS * 1000);
   };
 

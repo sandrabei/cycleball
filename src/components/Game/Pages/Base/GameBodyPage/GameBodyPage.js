@@ -4,7 +4,7 @@ import strings from "../../../../../strings.json";
 import "./GameBodyPage.css";
 import useAutoPlayAudio from "../../../../../hooks/useAutoPlayAudio";
 
-const AI_PLAYER_ACTION_DELAY_SECONDS = 1 + (Math.random()-0.5);
+const AI_PLAYER_ACTION_DELAY_SECONDS = 1;
 
 const MAX_PAUSES = 3;
 
@@ -12,7 +12,7 @@ const PAUSE_INTERVAL_SECONDS = 10;
 
 const PAUSE_COOL_DOWN_SECONDS = 10 + PAUSE_INTERVAL_SECONDS;
 
-const AUTOTOSS_INTERVAL_SECONDS = 10;
+const AUTOTOSS_INTERVAL_SECONDS = 2;
 
 const REDIRECT_AFTER_GAME_DELAY_SECONDS = 3;
 
@@ -46,9 +46,12 @@ const GameBodyPage = ({
   const pauseCoolDownTimeoutRef = useRef(null);
   const passToAiTimeoutRef = useRef(null);
 
-  const autotosstimeoutRef = useRef(null)
+  const autotosstimeoutRef = useRef(null);
 
-  const [autotossref, setIsautotossref] = useState(true)
+  const [autotossref1, setIsautotossref1] = useState(true);
+  const [autotossref2, setIsautotossref2] = useState(false);
+  console.log("rrrrrrrrrr");
+  
   const [remainingTime, setRemainingTime] = useState(timeLimitSeconds);
 
   const [actionCounts, setActionCounts] = useState([0, 0, 0]);
@@ -64,51 +67,46 @@ const GameBodyPage = ({
   const [isPauseCoolDown, setIsPauseCoolDown] = useState(false);
 
   
-
   const executeActionByAiPlayer = (activePlayerIndex) => {
-
     setActionCounts((prevActionCounts) => {
       const newActionCounts = [...prevActionCounts];
       newActionCounts[activePlayerIndex] += 1;
       return newActionCounts;
     });
-
     const targetBySign =
       Math.random() - getNextTargetProbability(remainingTime);
-
     if (targetBySign < 0) {
       setActivePlayerIndex(PLAYER_INDEX.HUMAN);
-      setIsautotossref(true);
     } else {
       passToAiPlayer(PLAYER_INDEX.AI_1 + PLAYER_INDEX.AI_2 - activePlayerIndex);
     }
   };
 
-  if (autotossref && (activePlayerIndex === PLAYER_INDEX.HUMAN)) {
-      setIsautotossref(false);
+  console.log("eeeeeeeeeee");
+  if (autotossref1 && (activePlayerIndex === PLAYER_INDEX.HUMAN)) {
+      setIsautotossref1(false);
+      setIsautotossref2(true);
+      console.log("aaaaaaaaaaaaaa");
       autotosstimeoutRef.current = setTimeout(() => {
-      const uniformrandom = Math.random();
-      if (uniformrandom <0.5) {
-        clearTimeout(autotosstimeoutRef.current);
+      const uniformrandom = Math.round(Math.random())+1;
+        if (autotossref2) {
+          setIsautotossref2(false);
+          console.log("hhhhhhhhh")
+          passToAiPlayerByHuman(2);
+        } 
         autotosstimeoutRef.current = null;
-        passToAiPlayerByHuman(PLAYER_INDEX.AI_1);
-      }
-      else {
-        clearTimeout(autotosstimeoutRef.current);
-        autotosstimeoutRef.current = null;
-        passToAiPlayerByHuman(PLAYER_INDEX.AI_2);
-      }
-    return ;
-  }, AUTOTOSS_INTERVAL_SECONDS * 1000); 
+      }, AUTOTOSS_INTERVAL_SECONDS * 1000); 
+      console.log("bbbbbbbbbbbbbbb");
+    }
 
-  }
+  
   const passToAiPlayer = (aiPlayerIndex) => {
     if (remainingTime <= 0) {
       return;
     }
-
     setActivePlayerIndex(aiPlayerIndex);
-
+    setIsautotossref1(true);
+    console.log("ddddddddc")
     passToAiTimeoutRef.current = setTimeout(() => {
       passToAiTimeoutRef.current = null;
       executeActionByAiPlayer(aiPlayerIndex);
@@ -116,6 +114,9 @@ const GameBodyPage = ({
   };
 
   const passToAiPlayerByHuman = (aiPlayerIndex) => {
+    setIsautotossref1(false);
+    setIsautotossref2(false);
+    console.log("cccccccccccc")
     if (
       isPaused ||
       activePlayerIndex !== PLAYER_INDEX.HUMAN ||
@@ -123,14 +124,15 @@ const GameBodyPage = ({
     ) {
       return;
     }
-    setIsautotossref(false);
-    setActionCounts((prevActionCounts) => {
+      setActionCounts((prevActionCounts) => {
       const newActionCounts = [...prevActionCounts];
       newActionCounts[PLAYER_INDEX.HUMAN] += 1;
       return newActionCounts;
     });
     passToAiPlayer(aiPlayerIndex);
   };
+  console.log("ggggggggggg");
+
 
   const pause = () => {
     if (pauseCount >= MAX_PAUSES) {
@@ -166,6 +168,8 @@ const GameBodyPage = ({
     }, PAUSE_COOL_DOWN_SECONDS * 1000);
   };
 
+  console.log("xxxxxxxxxxxxx");
+
   useEffect(() => {
     if (gameCountdownIntervalRef.current) {
       return;
@@ -185,7 +189,6 @@ const GameBodyPage = ({
         timestamp: Date.now(),
       });
     }
-
     return () => {
       if (passToAiTimeoutRef.current) {
         clearTimeout(passToAiTimeoutRef.current);
@@ -206,7 +209,7 @@ const GameBodyPage = ({
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
+  console.log("yyyyyyyy");
   useEffect(() => {
     if (remainingTime % 60 === 59) {
       setPauseCount(0);
@@ -234,7 +237,7 @@ const GameBodyPage = ({
       setActivePageIndex(gameStage);
     }, REDIRECT_AFTER_GAME_DELAY_SECONDS * 1000);
   }
-
+  console.log("zzzzzzzzzzz");
   return (
     <>
       <div
