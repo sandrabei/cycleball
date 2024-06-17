@@ -4,7 +4,7 @@ import strings from "../../../../../strings.json";
 import "./GameBodyPage.css";
 import useAutoPlayAudio from "../../../../../hooks/useAutoPlayAudio";
 
-const AI_PLAYER_ACTION_DELAY_SECONDS = 1;
+const AI_PLAYER_ACTION_DELAY_SECONDS = 0.9;
 
 const MAX_PAUSES = 3;
 
@@ -12,7 +12,7 @@ const PAUSE_INTERVAL_SECONDS = 10;
 
 const PAUSE_COOL_DOWN_SECONDS = 10 + PAUSE_INTERVAL_SECONDS;
 
-const AUTOTOSS_INTERVAL_SECONDS = 5;
+const AUTOTOSS_INTERVAL_SECONDS = 10;
 
 const REDIRECT_AFTER_GAME_DELAY_SECONDS = 3;
 
@@ -57,21 +57,20 @@ const GameBodyPage = ({
 
   const [pauseCount, setPauseCount] = useState(0);
 
-  const [autotossref, setautotossref] = useState(true);
-
   const [isPaused, setIsPaused] = useState(false);
 
   const [isPauseCoolDown, setIsPauseCoolDown] = useState(false);
 
-  
   const executeActionByAiPlayer = (activePlayerIndex) => {
     setActionCounts((prevActionCounts) => {
       const newActionCounts = [...prevActionCounts];
       newActionCounts[activePlayerIndex] += 1;
       return newActionCounts;
     });
+
     const targetBySign =
       Math.random() - getNextTargetProbability(remainingTime);
+
     if (targetBySign < 0) {
       passTohumanplayer();
     } else {
@@ -79,23 +78,25 @@ const GameBodyPage = ({
     }
   };
 
-
   const passToAiPlayer = (aiPlayerIndex) => {
     if (remainingTime <= 0) {
       return;
     }
     setActivePlayerIndex(aiPlayerIndex);
-
+    const randomdelay = AI_PLAYER_ACTION_DELAY_SECONDS + (Math.random() - 0.5)/2
     passToAiTimeoutRef.current = setTimeout(() => {
       passToAiTimeoutRef.current = null;
       executeActionByAiPlayer(aiPlayerIndex);
-    }, AI_PLAYER_ACTION_DELAY_SECONDS * 1000);
+    }, randomdelay * 1000);
   };
 
   const passToAiPlayerByHuman = (aiPlayerIndex) => {
-    setautotossref(false);
-    console.log("bbbbbbbbb");
-    console.log(autotossref);
+     
+    if (autotosstimeoutref.current) {
+      clearTimeout(autotosstimeoutref.current);
+      autotosstimeoutref.current = null;
+    }
+
     if (
       isPaused ||
       activePlayerIndex !== PLAYER_INDEX.HUMAN ||
@@ -113,17 +114,12 @@ const GameBodyPage = ({
 
   const passTohumanplayer = () =>{
     setActivePlayerIndex(PLAYER_INDEX.HUMAN);
-    console.log("cccccc");
-    console.log(autotossref);
+  
     autotosstimeoutref.current = setTimeout(() => {
       autotosstimeoutref.current = null;
-      if (autotossref != false) {
         const uniformrandom = Math.round(Math.random())+1
         passToAiPlayerByHuman(uniformrandom);
-        console.log("dddddddd");
-        console.log(autotossref);
-      }
-    }, AUTOTOSS_INTERVAL_SECONDS * 1000);
+      }, AUTOTOSS_INTERVAL_SECONDS * 1000);
   }
 
   const pause = () => {
@@ -143,7 +139,10 @@ const GameBodyPage = ({
       clearTimeout(passToAiTimeoutRef.current);
       passToAiTimeoutRef.current = null;
     }
-
+    if (autotosstimeoutref.current) {
+      clearTimeout(autotosstimeoutref.current);
+      autotosstimeoutref.current = null;
+    }
     pauseCountdownTimeoutRef.current = setTimeout(() => {
       setIsPaused(false);
       pauseCountdownTimeoutRef.current = null;
@@ -151,6 +150,9 @@ const GameBodyPage = ({
       if (activePlayerIndex !== PLAYER_INDEX.HUMAN) {
         executeActionByAiPlayer(activePlayerIndex);
       } 
+      else {
+        passTohumanplayer();
+      }
       
     }, PAUSE_INTERVAL_SECONDS * 1000);
 
@@ -188,6 +190,9 @@ const GameBodyPage = ({
       }
       if (pauseCoolDownTimeoutRef.current) {
         clearTimeout(pauseCoolDownTimeoutRef.current);
+      }
+      if (autotosstimeoutref.current) {
+        clearTimeout(autotosstimeoutref.current);
       }
       clearInterval(gameCountdownIntervalRef.current);
       gameCountdownIntervalRef.current = null;
@@ -304,7 +309,7 @@ const GameBodyPage = ({
         </Modal>
 
         <Modal className="App-modal" isOpen={remainingTime <= 0}>
-          游戏结束，请休息一下。{"\u3000\u3000\u3000\u3000\u3000\u3000"}                
+          游戏结束，请休息一下。{"\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000"}                
           您的得分是:{actionCounts[PLAYER_INDEX.HUMAN]}  {"\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000"}           
           豆豆的得分是：{actionCounts[PLAYER_INDEX.AI_1]}  {"\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000"}                        
           乐乐的得分是：{actionCounts[PLAYER_INDEX.AI_2]}                                

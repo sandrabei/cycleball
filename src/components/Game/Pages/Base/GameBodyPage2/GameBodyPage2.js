@@ -4,13 +4,15 @@ import strings from "../../../../../strings.json";
 import "./GameBodyPage2.css";
 import useAutoPlayAudio from "../../../../../hooks/useAutoPlayAudio";
 
-const AI_PLAYER_ACTION_DELAY_SECONDS = 0.8 + (Math.random()-0.5);
+const AI_PLAYER_ACTION_DELAY_SECONDS = 0.9;
 
 const MAX_PAUSES = 3;
 
 const PAUSE_INTERVAL_SECONDS = 10;
 
 const PAUSE_COOL_DOWN_SECONDS = 10 + PAUSE_INTERVAL_SECONDS;
+
+const AUTOTOSS_INTERVAL_SECONDS = 10;
 
 const REDIRECT_AFTER_GAME_DELAY_SECONDS = 3;
 
@@ -43,6 +45,7 @@ const GameBodyPage2 = ({
   const pauseCountdownTimeoutRef = useRef(null);
   const pauseCoolDownTimeoutRef = useRef(null);
   const passToAiTimeoutRef = useRef(null);
+  const autotosstimeoutref = useRef(null);
 
   const [remainingTime, setRemainingTime] = useState(timeLimitSeconds);
 
@@ -69,7 +72,7 @@ const GameBodyPage2 = ({
       Math.random() - getNextTargetProbability(remainingTime);
 
     if (targetBySign < 0) {
-      setActivePlayerIndex(PLAYER_INDEX.HUMAN);
+      passTohumanplayer();
     } else {
       passToAiPlayer(PLAYER_INDEX.AI_1 + PLAYER_INDEX.AI_2 - activePlayerIndex);
     }
@@ -79,18 +82,22 @@ const GameBodyPage2 = ({
     if (remainingTime <= 0) {
       return;
     }
-
     setActivePlayerIndex(aiPlayerIndex);
-
+    const randomdelay = AI_PLAYER_ACTION_DELAY_SECONDS + (Math.random() - 0.5)/2
     passToAiTimeoutRef.current = setTimeout(() => {
       passToAiTimeoutRef.current = null;
       executeActionByAiPlayer(aiPlayerIndex);
-      console.log("mmmmmmm");
-    }, AI_PLAYER_ACTION_DELAY_SECONDS * 1000);
+    }, randomdelay * 1000);
   };
 
   const passToAiPlayerByHuman = (aiPlayerIndex) => {
-    if (
+    
+    if (autotosstimeoutref.current) {
+      clearTimeout(autotosstimeoutref.current);
+      autotosstimeoutref.current = null;
+    }
+
+  if (
       isPaused ||
       activePlayerIndex !== PLAYER_INDEX.HUMAN ||
       remainingTime <= 0
@@ -106,6 +113,16 @@ const GameBodyPage2 = ({
 
     passToAiPlayer(aiPlayerIndex);
   };
+
+  const passTohumanplayer = () =>{
+    setActivePlayerIndex(PLAYER_INDEX.HUMAN);
+  
+    autotosstimeoutref.current = setTimeout(() => {
+      autotosstimeoutref.current = null;
+        const uniformrandom = Math.round(Math.random())+1
+        passToAiPlayerByHuman(uniformrandom);
+      }, AUTOTOSS_INTERVAL_SECONDS * 1000);
+  }
 
   const pause = () => {
     if (pauseCount >= MAX_PAUSES) {
@@ -125,13 +142,19 @@ const GameBodyPage2 = ({
       clearTimeout(passToAiTimeoutRef.current);
       passToAiTimeoutRef.current = null;
     }
-
+    if (autotosstimeoutref.current) {
+      clearTimeout(autotosstimeoutref.current);
+      autotosstimeoutref.current = null;
+    }
     pauseCountdownTimeoutRef.current = setTimeout(() => {
       setIsPaused(false);
       pauseCountdownTimeoutRef.current = null;
 
       if (activePlayerIndex !== PLAYER_INDEX.HUMAN) {
         executeActionByAiPlayer(activePlayerIndex);
+      }
+      else {
+        passTohumanplayer();
       }
     }, PAUSE_INTERVAL_SECONDS * 1000);
 
@@ -171,7 +194,9 @@ const GameBodyPage2 = ({
       if (pauseCoolDownTimeoutRef.current) {
         clearTimeout(pauseCoolDownTimeoutRef.current);
       }
-
+      if (autotosstimeoutref.current) {
+        clearTimeout(autotosstimeoutref.current);
+      }
       clearInterval(gameCountdownIntervalRef.current);
       gameCountdownIntervalRef.current = null;
     };
@@ -288,7 +313,7 @@ const GameBodyPage2 = ({
         </Modal>
 
         <Modal className="App-modal" isOpen={remainingTime <= 0}>
-          游戏结束，请休息一下。{"\u3000\u3000\u3000\u3000\u3000\u3000"}                
+          游戏结束，请休息一下。{"\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000"}                
           您的得分是:{actionCounts[PLAYER_INDEX.HUMAN]}  {"\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000"}           
           豆豆的得分是：{actionCounts[PLAYER_INDEX.AI_1]}  {"\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000"}                        
           乐乐的得分是：{actionCounts[PLAYER_INDEX.AI_2]}                                
