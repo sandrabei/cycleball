@@ -4,7 +4,7 @@ import strings from "../../../../../strings.json";
 import "./GameBodyPage.css";
 import useAutoPlayAudio from "../../../../../hooks/useAutoPlayAudio";
 
-const AI_PLAYER_ACTION_DELAY_SECONDS = 0.9;
+const AI_PLAYER_ACTION_DELAY_SECONDS = 0.8;
 
 const MAX_PAUSES = 3;
 
@@ -308,10 +308,9 @@ const GameBodyPage = ({
         暂停中
         </Modal>
 
-        <Modal className="App-modal" isOpen={remainingTime <= 0}>
-          游戏结束，请休息一下。{"\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000"}                
-          您的得分是:{actionCounts[PLAYER_INDEX.HUMAN]}  {"\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000"}           
-          豆豆的得分是：{actionCounts[PLAYER_INDEX.AI_1]}  {"\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000"}                        
+        <Modal className="App-modal" isOpen={remainingTime <= 0}>             
+          您的得分是:{actionCounts[PLAYER_INDEX.HUMAN]}  {"\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000"}           
+          豆豆的得分是：{actionCounts[PLAYER_INDEX.AI_1]}  {"\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000"}                        
           乐乐的得分是：{actionCounts[PLAYER_INDEX.AI_2]}                                
           </Modal>
       </div>

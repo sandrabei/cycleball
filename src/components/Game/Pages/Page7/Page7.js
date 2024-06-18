@@ -1,20 +1,18 @@
 import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
 import SurveyQuestion from "./SurveyQuestion";
-import survey from "../../../../survey1.json";
+import survey from "../../../../survey2.json";
 import ReactPaginate from "react-paginate";
-import "./Page4.css";
+import "./Page7.css";
 
 import backgroundMusic from "../../../../assets/music/blank.wav";
 import useAutoPlayAudio from "../../../../hooks/useAutoPlayAudio";
 
-const audioElementId = "Page4-audio";
+const audioElementId = "Page7-audio";
 
 const ITEMS_PER_PAGE = 6;
 
-const REDIRECT_AFTER_GAME_DELAY_SECONDS = 3;
-
-const Page4 = ({ gameData, setActivePageIndex, }) => {
+const Page7 = ({ gameData, onFinish }) => {
   useAutoPlayAudio({ audioElementId });
 
   const [hasSubmitted, setHasSubmitted] = useState(false);
@@ -40,20 +38,13 @@ const Page4 = ({ gameData, setActivePageIndex, }) => {
     );
   }, [responses]);
 
-  
-  if (hasSubmitted){
-    setTimeout(() => {
-      setActivePageIndex(4);
-    }, REDIRECT_AFTER_GAME_DELAY_SECONDS * 1000);
-  }
-
   return (
-    <div className="Page4-container">
-      <header className="Page4-header">
+    <div className="Page7-container">
+      <header className="Page7-header">
         感谢参与！请根据刚才的游戏回答以下问题：
       </header>
 
-      <div className="Page4-survey-container">
+      <div className="Page7-survey-container">
         {currentItems.map((question, index) => {
           const surveyGlobalIndex = itemOffset + index;
 
@@ -74,7 +65,7 @@ const Page4 = ({ gameData, setActivePageIndex, }) => {
         })}
       </div>
 
-      <div className="Page4-pagination-container">
+      <div className="Page7-pagination-container">
         <ReactPaginate
           onPageChange={handlePageClick}
           pageCount={pageCount}
@@ -83,16 +74,18 @@ const Page4 = ({ gameData, setActivePageIndex, }) => {
         />
       </div>
 
-      <div className="Page4-button-container">
+      <div className="Page7-button-container">
         <button
-          className="Page4-button"
+          className="Page7-button"
           disabled={!hasFinished}
           onClick={() => {
             responses.forEach((response, index) => {
-              gameData.survey1Responses.push({ questionIndex: index, response });
+              gameData.survey2Responses.push({ questionIndex: index, response });
             });
 
             setHasSubmitted(true);
+
+            onFinish();
           }}
         >
           提交
@@ -104,11 +97,10 @@ const Page4 = ({ gameData, setActivePageIndex, }) => {
       </audio>
 
       <Modal className="App-modal" isOpen={hasSubmitted}>
-        辛苦啦！请休息一下，{"\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000"}
-        第二轮游戏马上开始。
+        感谢您，请与工作人员联系
       </Modal>
     </div>
   );
 };
 
-export default Page4;
+export default Page7;

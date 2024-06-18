@@ -19,7 +19,7 @@ const Page1 = ({ setActivePageIndex }) => {
 
   return (
     <div className="Page1-container">
-      <header className="Page1-header">
+      <header className="Page1-header"style={{ textAlign: 'left' }}>
         {strings["game.page1.guide_text"]}
       </header>
       <div className="Page1-button-container">

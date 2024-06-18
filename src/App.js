@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import "./App.css";
 import PageContainer from "./components/Game/PageContainer";
-import survey from "./survey.json";
+import survey1 from "./survey1.json";
+import survey2 from "./survey2.json";
 
 const gameData = {
   gameBeginTimes: [],
   pauses: [],
   actionCounts: [],
-  surveyResponses: [],
+  survey1Responses: [],
+  survey2Responses: [],
 };
 
 const sortByStage = (a, b) => a.stage - b.stage;
@@ -29,7 +31,11 @@ const submitGameData = () => {
     game_begin_times: [...gameData.gameBeginTimes]
       .sort(sortByStage)
       .map((record) => record.timestamp),
-    question_answers: survey.map((question, index) => ({
+    question1_answers: survey1.map((question, index) => ({
+      idx: index,
+      ...question,
+    })),
+    question2_answers: survey2.map((question, index) => ({
       idx: index,
       ...question,
     })),

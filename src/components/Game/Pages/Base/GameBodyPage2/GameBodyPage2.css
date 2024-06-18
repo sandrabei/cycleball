@@ -13,7 +13,7 @@
   justify-content: center;
   align-items: center;
 
-  opacity:0;
+  opacity:0.1;
 }
 
 .GameBodyPage2-header-text {
@@ -24,8 +24,6 @@
   justify-content: center;
   align-items: center;
   margin-top: 30px;
-
-  font-weight: bold;
 }
 
 .GameBodyPage2-player-box {
@@ -42,7 +40,8 @@
   align-items: center;
 
   font-weight: bold;
-  opacity:0;
+  font-size:1.2em;
+  opacity:0.1;
 }
 
 .GameBodyPage2-ai-name-box {
@@ -134,4 +133,8 @@
   width: 60%;
   height: 40%;
   overflow: auto;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  text-align: center;
 }

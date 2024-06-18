@@ -1,4 +1,4 @@
-.Page4-container {
+.Page7-container {
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -7,77 +7,66 @@
   background-size: cover;
 }
 
-.Page4-header {
+.Page7-header {
   margin: 5% auto 5%;
   background-color: rgb(250, 235, 215);
   width: 600px;
   height: 60px;
   display: flex;
-  justify-content: left;
+  justify-content: center;
   align-items: center;
   font-size: 0.9em;
 }
 
-.Page4-survey-container {
+.Page7-survey-container {
   flex-grow: 1;
   overflow: auto;
 }
 
-.Page4-survey-question {
+.Page7-survey-question {
   margin-bottom: 30px;
   font-size: 0.8em;
 }
 
-.Page4-survey-question-question {
-  margin-bottom: 10px;
-  margin-left: 10px;
-  margin-right: 10px;
+.Page7-survey-question-question {
+    margin-bottom: 10px;
+    margin-left:30px;
+    display: flex;
+    align-items:flex-start;
+  }
+
+.Page7-survey-question-answers {
+  margin-left: 30px;
+  margin-right: 30px;
   display: flex;
-  flex-wrap:wrap;
-  text-align: left;
-  align-items:flex-start;
-  align-content:flex-start;
-  font-weight: bold;
-
-}
-.Page4-survey-question-question > div {
-  text-align: left; /* Ensure text inside divs aligns to the left */
+  justify-content: space-between;
 }
 
-
-.Page4-survey-question-answers {
-  margin-left: 20px;
-  margin-right: 20px;
-  display: flex;
-  justify-content:space-around;
-  gap: 10px;
-}
-
-.Page4-survey-selected-response {
+.Page7-survey-selected-response {
   font-weight: bold;
   text-decoration: underline;
 }
 
-.Page4-pagination-container {
+.Page7-pagination-container {
   width: 90%;
   height: 30px;
   margin: 0 0% 5%;
 }
 
-.Page4-pagination-container ul {
+.Page7-pagination-container ul {
   list-style: none;
 }
 
-.Page4-pagination-container li {
+.Page7-pagination-container li {
   display: inline-block;
   font-size: 0.8em;
 }
 
-.Page4-pagination-container li:not(:last-of-type) {
+.Page7-pagination-container li:not(:last-of-type) {
   margin-right: 10px;
 }
 
-.Page4-button-container {
+.Page7-button-container {
   width: 90%;
   height: 30px;
   display: flex;
@@ -86,7 +75,7 @@
   
 }
 
-.Page4-button {
+.Page7-button {
   background-color: rgb(180, 201, 241);
   border: 0;
   border-radius: 30px;
