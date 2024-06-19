@@ -96,9 +96,13 @@
   font-size: 1.2em;
 }
 
-.App-modal {
+.Page4-App-modal {
+  position: fixed;
+  top: 40%;
+  left: 40%;
+  transform: translate(-60%, -90%);
   width: 60%;
-  height: 40%;
+  height: 30%;
   overflow: auto;
   display:flex;
   justify-content:center;

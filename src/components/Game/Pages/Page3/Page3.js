@@ -5,7 +5,7 @@ import backgroundMusic from "../../../../assets/music/blank.wav";
 
 const audioElementId = "Page3-audio";
 
-const TIME_LIMIT_SECONDS = 2;
+const TIME_LIMIT_SECONDS = 300;
 
 const getNextTargetProbability = () => {
   return 0.2;

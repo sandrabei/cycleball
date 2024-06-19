@@ -13,7 +13,7 @@
   width: 600px;
   height: 60px;
   display: flex;
-  justify-content: center;
+  justify-content: left;
   align-items: center;
   font-size: 0.9em;
 }
@@ -29,18 +29,29 @@
 }
 
 .Page7-survey-question-question {
-    margin-bottom: 10px;
-    margin-left:30px;
-    display: flex;
-    align-items:flex-start;
+  margin-bottom: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
+  display: flex;
+  flex-wrap:wrap;
+  text-align: left;
+  align-items:flex-start;
+  align-content:flex-start;
+  font-weight: bold;
   }
 
-.Page7-survey-question-answers {
-  margin-left: 30px;
-  margin-right: 30px;
-  display: flex;
-  justify-content: space-between;
-}
+  .Page7-survey-question-question > div {
+    text-align: left; /* Ensure text inside divs aligns to the left */
+  }
+  
+  
+  .Page7-survey-question-answers {
+    margin-left: 20px;
+    margin-right: 20px;
+    display: flex;
+    justify-content:space-around;
+    gap: 10px;
+  }
 
 .Page7-survey-selected-response {
   font-weight: bold;
@@ -85,9 +96,13 @@
   font-size: 1.2em;
 }
 
-.App-modal {
+.Page7-App-modal {
+  position: fixed;
+  top: 40%;
+  left: 40%;
+  transform: translate(-60%, -90%);
   width: 60%;
-  height: 40%;
+  height: 30%;
   overflow: auto;
   display:flex;
   justify-content:center;

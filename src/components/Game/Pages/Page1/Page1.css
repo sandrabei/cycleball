@@ -10,7 +10,18 @@
 .Page1-header {
   max-width: 600px;
   margin: 20% auto;
-  
+  padding: 20px;
+  display: flex;
+  flex-wrap:wrap;
+  text-align: left;
+  align-items:flex-start;
+  align-content:flex-start;
+  white-space: pre-line;
+  line-height: 1.3;
+}
+
+.Page1-header p {
+  padding-bottom: 10px; /* Adjust the bottom margin of paragraphs */
 }
 
 .Page1-button-container {

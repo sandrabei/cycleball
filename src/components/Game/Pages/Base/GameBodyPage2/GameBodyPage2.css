@@ -129,7 +129,7 @@
   transform: translate(calc(75vw - 50%), calc(25dvh + 80px + 30px - 50%));
 }
 
-.App-modal {
+.GameBodyPage2-App-modal {
   width: 60%;
   height: 40%;
   overflow: auto;

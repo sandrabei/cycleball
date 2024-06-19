@@ -6,7 +6,9 @@ import survey2 from "./survey2.json";
 
 const gameData = {
   gameBeginTimes: [],
+  toss:[],
   pauses: [],
+  negpauses:[],
   actionCounts: [],
   survey1Responses: [],
   survey2Responses: [],
@@ -24,6 +26,14 @@ const submitGameData = () => {
   gameData.gameBeginTimes.forEach((record) => (pauseTimes[record.stage] = []));
 
   gameData.pauses.forEach((record) => {
+    pauseTimes[record.stage].push(record.timeFromStart);
+  });
+
+  gameData.negpauses.forEach((record) => {
+    pauseTimes[record.stage].push(record.timeFromStart);
+  });
+
+  gameData.toss.forEach((record) => {
     pauseTimes[record.stage].push(record.timeFromStart);
   });
 

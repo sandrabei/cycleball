@@ -5,7 +5,7 @@ import backgroundMusic from "../../../../assets/music/blank.wav";
 
 const audioElementId = "Page6-audio";
 
-const TIME_LIMIT_SECONDS = 90;
+const TIME_LIMIT_SECONDS = 9;
 
 // 返回的概率为电脑玩家传给人类玩家的概率
 const getNextTargetProbability = (remainingTime) => {

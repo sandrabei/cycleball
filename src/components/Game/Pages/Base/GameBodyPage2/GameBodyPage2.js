@@ -56,17 +56,32 @@ const GameBodyPage2 = ({
   );
 
   const [pauseCount, setPauseCount] = useState(0);
+  const [negpauseCount, setnegPauseCount] = useState(0);
+  const [tossCount, settossCount] = useState(0);
 
   const [isPaused, setIsPaused] = useState(false);
 
   const [isPauseCoolDown, setIsPauseCoolDown] = useState(false);
 
   const executeActionByAiPlayer = (activePlayerIndex) => {
-    setActionCounts((prevActionCounts) => {
-      const newActionCounts = [...prevActionCounts];
-      newActionCounts[activePlayerIndex] += 1;
-      return newActionCounts;
+    //setActionCounts((prevActionCounts) => {
+    //  const newActionCounts = [...prevActionCounts];
+    //  newActionCounts[activePlayerIndex] += 1;
+    //  return newActionCounts;
+    //});
+    actionCounts[activePlayerIndex] += 1;
+    setActionCounts([...actionCounts]);
+    settossCount((prevtossCount) => (prevtossCount += 1));
+    gameData.toss.push({
+      stage: gameStage,
+      timeFromStart: timeLimitSeconds - remainingTime,
+      humanActionCount: actionCounts[PLAYER_INDEX.HUMAN],
+      aiPlayer1ActionCount: actionCounts[PLAYER_INDEX.AI_1],
+      aiPlayer2ActionCount: actionCounts[PLAYER_INDEX.AI_2],
     });
+    console.log("aaaaaaaa");
+    console.log(actionCounts);
+    console.log(gameData);
 
     const targetBySign =
       Math.random() - getNextTargetProbability(remainingTime);
@@ -105,12 +120,21 @@ const GameBodyPage2 = ({
       return;
     }
 
-    setActionCounts((prevActionCounts) => {
-      const newActionCounts = [...prevActionCounts];
-      newActionCounts[PLAYER_INDEX.HUMAN] += 1;
-      return newActionCounts;
+    actionCounts[PLAYER_INDEX.HUMAN] += 1;
+    setActionCounts([...actionCounts]);
+    settossCount((prevtossCount) => (prevtossCount += 1));
+    gameData.toss.push({
+      stage: gameStage,
+      timeFromStart: timeLimitSeconds - remainingTime,
+      humanActionCount: actionCounts[PLAYER_INDEX.HUMAN],
+      aiPlayer1ActionCount: actionCounts[PLAYER_INDEX.AI_1],
+      aiPlayer2ActionCount: actionCounts[PLAYER_INDEX.AI_2],
     });
 
+    console.log("aaaaaaaa");
+    console.log(actionCounts);
+    console.log(gameData);
+    
     passToAiPlayer(aiPlayerIndex);
   };
 
@@ -120,7 +144,18 @@ const GameBodyPage2 = ({
     autotosstimeoutref.current = setTimeout(() => {
       autotosstimeoutref.current = null;
         const uniformrandom = Math.round(Math.random())+1
+        setnegPauseCount((prevnegPauseCount) => (prevnegPauseCount += 1));
         passToAiPlayerByHuman(uniformrandom);
+        gameData.negpauses.push({
+          stage: gameStage,
+          timeFromStart: timeLimitSeconds - remainingTime,
+          humanActionCount: actionCounts[PLAYER_INDEX.HUMAN],
+          aiPlayer1ActionCount: actionCounts[PLAYER_INDEX.AI_1],
+          aiPlayer2ActionCount: actionCounts[PLAYER_INDEX.AI_2],
+        });
+        console.log("bbbbbb");
+        console.log(actionCounts);
+        console.log(gameData);
       }, AUTOTOSS_INTERVAL_SECONDS * 1000);
   }
 
@@ -136,7 +171,13 @@ const GameBodyPage2 = ({
     gameData.pauses.push({
       stage: gameStage,
       timeFromStart: timeLimitSeconds - remainingTime,
+      humanActionCount: actionCounts[PLAYER_INDEX.HUMAN],
+      aiPlayer1ActionCount: actionCounts[PLAYER_INDEX.AI_1],
+      aiPlayer2ActionCount: actionCounts[PLAYER_INDEX.AI_2],
     });
+    console.log("ccccccc");
+    console.log(actionCounts);
+    console.log(gameData);
 
     if (passToAiTimeoutRef.current) {
       clearTimeout(passToAiTimeoutRef.current);
@@ -218,7 +259,6 @@ const GameBodyPage2 = ({
         aiPlayer2ActionCount: actionCounts[PLAYER_INDEX.AI_2],
       });
     }
-
     clearInterval(gameCountdownIntervalRef.current);
     gameCountdownIntervalRef.current = null;
 
@@ -313,7 +353,7 @@ const GameBodyPage2 = ({
         </Modal>
 
         <Modal className="App-modal" isOpen={remainingTime <= 0}>               
-          您的得分是:{actionCounts[PLAYER_INDEX.HUMAN]}  {"\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000"}           
+          您的得分是:  {actionCounts[PLAYER_INDEX.HUMAN]}  {"\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000"}           
           豆豆的得分是：{actionCounts[PLAYER_INDEX.AI_1]}  {"\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000\u3000"}                        
           乐乐的得分是：{actionCounts[PLAYER_INDEX.AI_2]}                                
           </Modal>

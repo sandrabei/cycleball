@@ -15,7 +15,7 @@ const PlayerName = ({ hasCreatedName, setHasCreatedName }) => {
             setHasCreatedName(true);
           }}
         >
-          点击生成玩家
+          生成玩家
         </button>
       )}
     </div>
